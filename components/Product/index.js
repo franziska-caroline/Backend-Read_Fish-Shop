@@ -14,9 +14,10 @@ export default function Product() {
   }
 
   if (!data) {
-    return;
+    return <p>No data available.</p>;
   }
 
+  console.log(data);
   return (
     <ProductCard>
       <h2>{data.name}</h2>
@@ -24,6 +25,16 @@ export default function Product() {
       <p>
         Price: {data.price} {data.currency}
       </p>
+      {data?.reviews.length > 0 && (
+        <>
+          <h3>Reviews:</h3>
+          <ul>
+            {data.reviews.map((review) => (
+              <li>{review.title}</li>
+            ))}
+          </ul>
+        </>
+      )}
       <StyledLink href="/">Back to all</StyledLink>
     </ProductCard>
   );
