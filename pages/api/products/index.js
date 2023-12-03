@@ -7,7 +7,7 @@ export default async function handler(request, response) {
 
   // request method GET
   if (request.method === "GET") {
-    // make a request to the db to get the jokes
+    // make a request to the db to get the products
     const products = await Product.find();
     console.log("products: ", products);
     return response.status(200).json(products);

@@ -2,6 +2,7 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import { ProductCard } from "./Product.styled";
 import { StyledLink } from "../Link/Link.styled";
+import ReviewForm from "../ReviewForm";
 
 export default function Product() {
   const router = useRouter();
@@ -19,23 +20,26 @@ export default function Product() {
 
   console.log(data);
   return (
-    <ProductCard>
-      <h2>{data.name}</h2>
-      <p>Description: {data.description}</p>
-      <p>
-        Price: {data.price} {data.currency}
-      </p>
-      {data?.reviews.length > 0 && (
-        <>
-          <h3>Reviews:</h3>
-          <ul>
-            {data.reviews.map((review) => (
-              <li>{review.title}</li>
-            ))}
-          </ul>
-        </>
-      )}
-      <StyledLink href="/">Back to all</StyledLink>
-    </ProductCard>
+    <>
+      <ProductCard>
+        <h2>{data.name}</h2>
+        <p>Description: {data.description}</p>
+        <p>
+          Price: {data.price} {data.currency}
+        </p>
+        {data?.reviews.length > 0 && (
+          <>
+            <h3>Reviews:</h3>
+            <ul>
+              {data.reviews.map((review) => (
+                <li>{review.title}</li>
+              ))}
+            </ul>
+          </>
+        )}
+        <StyledLink href="/">Back to all</StyledLink>
+      </ProductCard>
+      <ReviewForm />
+    </>
   );
 }
