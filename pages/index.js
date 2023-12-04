@@ -25,7 +25,6 @@ export default function HomePage() {
       },
       body: JSON.stringify(productData), // productData from the form input as the body of the request
     });
-
     // if the fetch was successful, call the `mutate` method to trigger a data revalidation of the useSWR hooks
     if (response.ok) {
       mutate();

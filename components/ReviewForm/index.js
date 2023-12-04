@@ -5,14 +5,22 @@ import {
 } from "../ProductForm/ProductForm.styled";
 import { StyledButton } from "../Button/Button.styled";
 
-export default function ReviewForm() {
+export default function ReviewForm({ onSubmit }) {
   return (
     <>
-      <StyledForm>
+      <StyledForm onSubmit={onSubmit}>
         <StyledHeading>Add a new Review</StyledHeading>
-        <StyledLabel htmlFor="review">
+        <StyledLabel htmlFor="title">
+          Title:
+          <input type="text" id="title" name="title" />
+        </StyledLabel>
+        <StyledLabel htmlFor="text">
           Review:
-          <textarea type="text" rows="3" id="review" name="review" />
+          <input type="text" id="text" name="text" />
+        </StyledLabel>
+        <StyledLabel htmlFor="rating">
+          Rating:
+          <input type="text" id="rating" name="rating" />
         </StyledLabel>
         <StyledButton type="submit">Submit</StyledButton>
       </StyledForm>

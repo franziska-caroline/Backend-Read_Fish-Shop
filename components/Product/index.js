@@ -13,6 +13,7 @@ export default function Product() {
   const { id } = router.query;
 
   const { data, isLoading, mutate } = useSWR(`/api/products/${id}`);
+  const { mutate: mutateReviews } = useSWR(`/api/reviews/${id}`);
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -36,6 +37,31 @@ export default function Product() {
       router.push("/");
       mutate();
     }
+
+    const { mutate } = useSWR("/api/products"); // call `useSWR` in your `ProductForm` component with the API endpoint and destructure the `mutate` method
+  }
+
+  async function handleAddReview(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const reviewData = Object.fromEntries(formData);
+
+    console.log(reviewData);
+    // send a "POST" request with `fetch`
+    const response = await fetch("/api/reviews", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ...reviewData, productId: id }), // productData from the form input as the body of the request
+    });
+    // if the fetch was successful, call the `mutate` method to trigger a data revalidation of the useSWR hooks
+    if (response.ok) {
+      mutateReviews();
+      event.target.reset();
+    }
+    // const { mutate: mutateReviews } = useSWR("/api/reviews");
   }
 
   async function handleDeleteProduct(id) {
@@ -58,6 +84,7 @@ export default function Product() {
   }
 
   console.log(data);
+
   return (
     <>
       <ProductCard>
@@ -71,7 +98,12 @@ export default function Product() {
             <h3>Reviews:</h3>
             <ul>
               {data.reviews.map((review) => (
-                <li>{review.title}</li>
+                <li key={review._id}>
+                  <h4>{review.title}</h4>
+                  <p>
+                    {review.rating}/5: {review.text}
+                  </p>
+                </li>
               ))}
             </ul>
           </>
@@ -89,6 +121,7 @@ export default function Product() {
         </StyledButton>
       </ProductCard>
       {isEditMode && <ProductForm onSubmit={handleEditProduct} />}
+      <ReviewForm onSubmit={handleAddReview} />
     </>
   );
 }
