@@ -12,6 +12,7 @@ export const StyledLink = styled(Link)`
 
   &:hover {
     cursor: pointer;
+    background-color: var(--color-foam);
   }
 
   &:visited {

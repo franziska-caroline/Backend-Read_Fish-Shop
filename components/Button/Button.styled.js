@@ -9,5 +9,6 @@ export const StyledButton = styled.button`
   box-shadow: 0px 1px 5px -2px var(--color-granite);
   &:hover {
     cursor: pointer;
+    background: var(--color-foam);
   }
 `;

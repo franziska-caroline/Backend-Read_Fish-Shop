@@ -29,11 +29,20 @@ export default function Product() {
         </p>
         {data?.reviews.length > 0 && (
           <>
-            <h3>Reviews:</h3>
+            <h3>Comments:</h3>
             <ul>
-              {data.reviews.map((review) => (
-                <li>{review.title}</li>
-              ))}
+              {data.reviews.map((review) => {
+                return (
+                  <>
+                    <li key={review._id}>
+                      <h4>{review.title}</h4>
+                      <p>
+                        {review.rating}/5: {review.text}
+                      </p>
+                    </li>
+                  </>
+                );
+              })}
             </ul>
           </>
         )}
@@ -43,3 +52,4 @@ export default function Product() {
     </>
   );
 }
+

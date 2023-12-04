@@ -1,5 +1,5 @@
 import dbConnect from "@/db/connect";
-import Product from "@/db/models/Product";
+import Review from "@/db/models/Review";
 
 export default async function handler(request, response) {
   await dbConnect();
@@ -7,13 +7,13 @@ export default async function handler(request, response) {
   const { id } = request.query;
 
   if (request.method === "GET") {
-    // .populate() method um reviews "anzuhängen"
-    const product = await Product.findById(id).populate("reviews");
+    // .populate() method
+    const review = await Review.findById(id);
 
-    if (!product) {
+    if (!review) {
       return response.status(404).json({ status: "Not Found" });
     }
 
-    response.status(200).json(product);
+    response.status(200).json(review);
   }
 }
