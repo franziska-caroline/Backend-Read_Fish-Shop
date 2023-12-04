@@ -6,16 +6,23 @@ export default async function handler(request, response) {
 
   const { id } = request.query;
 
+  // GET method
   if (request.method === "GET") {
     // .populate() method
     const product = await Product.findById(id).populate("reviews");
     // const product = await Product.findById(id);
-    // const product = products.find((product) => product.id === id);
 
     if (!product) {
       return response.status(404).json({ status: "Not Found" });
     }
 
     response.status(200).json(product);
+  }
+
+  // PUT method
+  if (request.method === "PUT") {
+    const updatedProduct = request.body;
+    await Product.findByIdAndUpdate(id, updatedProduct);
+    response.status(200).json({ status: `Place ${id} updated!` });
   }
 }
