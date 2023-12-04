@@ -37,6 +37,26 @@ export default function Product() {
       mutate();
     }
   }
+
+  async function handleDeleteProduct(id) {
+    try {
+      const response = await fetch(`/api/products/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        await response.json(); // Ensure the response is fully read
+
+        mutate();
+        router.push("/");
+      } else {
+        console.error(`Error: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("An error occurred during the delete request:", error);
+    }
+  }
+
   console.log(data);
   return (
     <>
@@ -63,6 +83,9 @@ export default function Product() {
           }}
         >
           Edit
+        </StyledButton>
+        <StyledButton onClick={() => handleDeleteProduct(id)}>
+          Delete
         </StyledButton>
       </ProductCard>
       {isEditMode && <ProductForm onSubmit={handleEditProduct} />}
