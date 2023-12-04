@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { ProductCard } from "./Product.styled";
 import { StyledLink } from "../Link/Link.styled";
 import ReviewForm from "../ReviewForm";
+import { StyledButton } from "../Button/Button.styled";
 
 export default function Product() {
   const router = useRouter();
@@ -38,8 +39,9 @@ export default function Product() {
           </>
         )}
         <StyledLink href="/">Back to all</StyledLink>
+        <StyledButton type="submit">Edit</StyledButton>
+        <StyledButton type="submit">Delete</StyledButton>
       </ProductCard>
-      <ReviewForm />
     </>
   );
 }
