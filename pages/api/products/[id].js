@@ -19,10 +19,26 @@ export default async function handler(request, response) {
     response.status(200).json(product);
   }
 
-  const updatedProduct = request.body;
-
   if (request.method === "PUT") {
-    updatedProduct.findByIdAndUpdate(id, updatedProduct);
-    response.status(200).json({ status: "Product successfully updated." });
+    const updatedProduct = request.body;
+    try {
+      const service = await updatedProduct.findOneAndUpdate(
+        { _id: request.query.id },
+        request.body,
+        { new: true }
+      );
+      response.status(200).json({ status: "Product successfully updated." });
+    } catch (error) {
+      console.error(error);
+      response.status(500).json({ message: "Error updating service" });
+    }
+    return;
   }
+
+  // if (request.method === "PUT") {
+  //   const updatedProduct = request.body;
+
+  //   updatedProduct.findByIdAndUpdate(id, updatedProduct);
+  //   response.status(200).json({ status: "Product successfully updated." });
+  // }
 }

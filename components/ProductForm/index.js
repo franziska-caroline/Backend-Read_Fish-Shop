@@ -2,33 +2,10 @@ import { StyledForm, StyledHeading, StyledLabel } from "./ProductForm.styled";
 import { StyledButton } from "../Button/Button.styled";
 import useSWR from "swr";
 
-export default function ProductForm() {
-  const { mutate } = useSWR("/api/products"); // call `useSWR` in your `ProductForm` component with the API endpoint and destructure the `mutate` method
-
-  async function handleSubmit(event) {
-    event.preventDefault();
-
-    const formData = new FormData(event.target);
-    const productData = Object.fromEntries(formData);
-
-    // send a "POST" request with `fetch`
-    const response = await fetch("/api/products", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(productData), // productData from the form input as the body of the request
-    });
-
-    // if the fetch was successful, call the `mutate` method to trigger a data revalidation of the useSWR hooks
-    if (response.ok) {
-      mutate();
-      event.target.reset();
-    }
-  }
+export default function ProductForm({onSubmit}) {
 
   return (
-    <StyledForm onSubmit={handleSubmit}>
+    <StyledForm onSubmit={onSubmit}>
       <StyledHeading>Add a new Fish</StyledHeading>
       <StyledLabel htmlFor="name">
         Name:
