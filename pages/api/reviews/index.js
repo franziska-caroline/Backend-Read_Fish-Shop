@@ -5,13 +5,14 @@ export default async function handler(request, response) {
   // to connect to the database
   await dbConnect();
 
+  /*
   // request method GET
   if (request.method === "GET") {
     // make a request to the db to get the products
     const reviews = await Review.find();
     console.log("reviews: ", reviews);
     return response.status(200).json(reviews);
-  }
+  }*/
 
   // try...catch block
   // request method POST

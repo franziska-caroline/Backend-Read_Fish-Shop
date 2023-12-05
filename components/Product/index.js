@@ -7,13 +7,14 @@ import { useState } from "react";
 import { StyledButton } from "../Button/Button.styled";
 import ProductForm from "../ProductForm";
 
-export default function Product() {
+export default function Product({ product }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const router = useRouter();
   const { id } = router.query;
+  const { reviewId } = router.query;
 
   const { data, isLoading, mutate } = useSWR(`/api/products/${id}`);
-  const { mutate: mutateReviews } = useSWR(`/api/reviews/${id}`);
+  const { mutate: mutateReviews } = useSWR(`/api/reviews/${reviewId}`);
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -41,6 +42,7 @@ export default function Product() {
     const { mutate } = useSWR("/api/products"); // call `useSWR` in your `ProductForm` component with the API endpoint and destructure the `mutate` method
   }
 
+  // HANDLE ADD REVIEW
   async function handleAddReview(event) {
     event.preventDefault();
 
@@ -54,7 +56,10 @@ export default function Product() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...reviewData, productId: id }), // productData from the form input as the body of the request
+      body: JSON.stringify({
+        productId: product._id,
+        ...formData,
+      }), // productData from the form input as the body of the request
     });
     // if the fetch was successful, call the `mutate` method to trigger a data revalidation of the useSWR hooks
     if (response.ok) {
@@ -121,7 +126,7 @@ export default function Product() {
         </StyledButton>
       </ProductCard>
       {isEditMode && <ProductForm onSubmit={handleEditProduct} />}
-      <ReviewForm onSubmit={handleAddReview} />
+      <ReviewForm productId={product._id} onSubmit={handleAddReview} />
     </>
   );
 }

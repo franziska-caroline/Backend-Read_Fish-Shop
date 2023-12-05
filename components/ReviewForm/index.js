@@ -5,10 +5,22 @@ import {
 } from "../ProductForm/ProductForm.styled";
 import { StyledButton } from "../Button/Button.styled";
 
-export default function ReviewForm({ onSubmit }) {
+export default function ReviewForm({ productId, onSubmit }) {
+  const [formData, setFormData] = useState({
+    title: "",
+    rating: 0,
+    text: "",
+  });
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(formData);
+  };
+
   return (
     <>
-      <StyledForm onSubmit={onSubmit}>
+      <StyledForm onSubmit={handleSubmit}>
         <StyledHeading>Add a new Review</StyledHeading>
         <StyledLabel htmlFor="title">
           Title:
